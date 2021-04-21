@@ -1,0 +1,261 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>Classification Prediction</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+      <!-- Custom styles for this template -->
+    <style>
+         :root {
+        --jumbotron-padding-y: 3rem;
+      }
+
+      .jumbotron {
+        padding-top: var(--jumbotron-padding-y);
+        padding-bottom: var(--jumbotron-padding-y);
+        margin-bottom: 0;
+        background-color: #fff;
+      }
+
+      @media (min-width: 768px) {
+        .jumbotron {
+          padding-top: calc(var(--jumbotron-padding-y) * 2);
+          padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+        }
+      }
+
+      .blink {
+        animation: blink 1s linear infinite;
+      }
+
+      @keyframes blink{
+        0%{opacity: 0;}
+        50%{opacity: .5;}
+        100%{opacity: 1;}
+      }
+
+      .jumbotron p:last-child {
+        margin-bottom: 0;
+      }
+
+      .jumbotron-heading {
+        font-weight: 300;
+      }
+
+      .jumbotron .container {
+        max-width: 40rem;
+      }
+
+      footer {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+
+      table.table-bordered{
+        border:1px solid;
+        margin-top:20px;
+      }
+
+      table.table-bordered > thead > tr > th{
+          border:1px solid;
+      }
+
+      table.table-bordered > tbody > tr > td{
+          border:1px solid;
+      }
+
+      footer p {
+        margin-bottom: .25rem;
+      }
+
+      .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+      		
+      .navbar-bg{
+      	background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+      }		
+      		
+      		.dynamic-div, .dynamic-div2, .dynamic-div3{
+      			display:none;
+
+      		}	
+      		.card{
+      			transition: .15s box-shadow ease,.15s transform ease;
+          -moz-transition: .15s box-shadow ease,.15s transform ease;
+      		}
+      		.card:hover {
+          transform: translateY(-0.25rem);
+          box-shadow: 0 2.25rem 1.5rem -1.5rem rgba(33,37,41,.3),0 0 1.5rem .5rem rgba(33,37,41,.05)!important;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <header>
+    
+      <div class="navbar navbar-dark bg-dark box-shadow fixed-top navbar-bg">
+        <div class="container d-flex justify-content-between">
+          <h3>Credit Card Fruad Detection</h3>
+        </div>
+      </div>
+    </header>
+    <div class="navbar"></div>
+    <div class="navbar"></div>
+
+    <main role="main">
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md">
+              <div>
+                
+                <div class="card-body">
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div>
+                          <p><u><b>Problem Statement:</b></u><br>
+
+It is important that credit card companies are able to recognize fraudulent credit card transactions so that customers are not charged for items that they did not purchase.
+<br>
+<u><b>Solution Provided:</b></u><br>
+
+The AI system is able to classify if the new transactions coming into the system are 'Fraud' or 'Non-Fraud'.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <form class="card-text" method="['GET','POST']" enctype="multipart/form-data" action="/classification">
+                  <div class="row">
+                  </div>
+                  </form>
+
+                  <div>
+                    <table class = "table table-bordered" width="400">
+                      <thead class="thead-dark">
+                        <tr class = "table table-active">
+                          <th style="border: 1px solid #000000"; colspan="11" class="text-center align-middle"><font size="2">Input Variables</font></th>
+                          <th style="border: 1px solid #000000"; class="text-center align-middle"><font size="2">Output</font></th>
+                          <th style="border: 1px solid #000000"; colspan="2" class="text-center align-middle"><font size="2">Prediction Using Algorithms</font></th>
+                        </tr>
+                      </thead>
+                      <tr class = "table table-active">
+                        {% for col in data.columns %}
+                        <th style="border: 1px solid #000000";><font size="2">{{col}}</font></th>
+                        {% endfor %}
+                        <th style="border: 1px solid #000000";><font size="2">Actual Outcome</font></th>
+                        <th style="border: 1px solid #000000";><font size="2">Anomaly Detection</font></th>
+                        <th style="border: 1px solid #000000";><font size="2">Random Forest</font></th>
+                      </tr>
+
+                      {% for row,act_data, pred1, pred2 in zip(data.values.tolist(),actual_data, data_predict1, data_predict2) %}
+                      <tr>
+                        {% for col, row_ in zip(data.columns, row) %}
+                        <td>
+                          <font size="2">{{ row_ }}</font>
+                        </td>
+                        {% endfor %}
+
+                        <td>
+                          {% if act_data == 1 %}
+                            <span class="blink text-danger"><font size="2">Fraud</font></span>
+                          {% else %}
+                            <span class="text-primary"><font size="2">Non-Fraud</font></span>
+                          {% endif %}
+                        </td>
+
+                        <td>
+                          {% if pred1 %}
+                            <span class="Predict blink text-danger"><font size="2">Fraud</font></span>
+                          {% else %}
+                            <span class="Predict text-success"><font size="2">Non-Fraud</font></span>
+                          {% endif %}
+                        </td>
+
+                        <td>
+                          {% if pred2 == 1 %}
+                            <span class="Predict blink text-danger"><font size="2">Fraud</font></span>
+                          {% else %}
+                            <span class="Predict text-success"><font size="2">Non-Fraud</font></span>
+                          {% endif %}
+                        </td>
+
+                      </tr>
+                      {% endfor %}
+
+                    </table>
+                  </div>
+
+                  <form class="card-text" method="['GET','POST']" enctype="multipart/form-data" action="/classification">
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <button type="button" class="pred loadContent btn btn-primary">Predict</button>
+                    </div>
+                  </div>
+                  </form>
+
+                  <u><b>About Data:</b></u>
+                  <br>
+
+The dataset contains transactions made by credit cards in September 2013 by European cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. The dataset is highly unbalanced, the positive class (frauds) account for 0.172% of all transactions.
+<br>
+<i>***Due to confidentiality issues, the original features and more background information about the data is not provided.</i>
+<br><br>
+<u><b>Solution Approaches:</b></u>
+</br>
+<b>1) Anomaly detection:</b>
+<br>
+It is a technique used to identify unusual patterns that do not conform to expected behaviour, called outliers. We have used Normal and Multi-Variate Gaussian Distribution approach.
+<br>
+<b>2) Using SMOTE (Classification approach):</b>
+<br>
+Apply re-sampling technique (oversampling) to evaluate Model Performance.
+
+                </div>
+
+              </div>
+            </div>    
+			  
+          </div>
+			
+        </div>
+      </div>
+
+
+    </main>
+
+  <script>
+	  
+					 
+
+jQuery(function() {
+  jQuery('.loadContent').click(function() {
+    jQuery('.dynamic-div').hide();
+    jQuery('#div' + $(this).attr('target')).show();
+  });
+});
+
+jQuery(function(){
+$(".Predict").hide();
+$('.pred').on('click',function(){
+  $(".Predict").show();
+});	
+}); 				  
+			
+	  
+</script>
+  </body>
+</html>
